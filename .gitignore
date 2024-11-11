@@ -1,3 +1,4 @@
 this_venv/
 secrets/
 *.log
+*profiles.yml
