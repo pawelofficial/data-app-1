@@ -7,7 +7,7 @@
 -- Generate the UNION ALL query
 {% set union_query = [] %}
 {% for seed in seed_names %}
-    {% do union_query.append("SELECT * FROM " ~var('target_schema')~"." ~ seed) %}
+    {% do union_query.append("SELECT *," ~"'"~seed~"'"~ " as ticker FROM " ~var('target_schema')~"." ~ seed) %}
 {% endfor %}
 {% do log(" __log union_query: " ~ union_query, info=True) %}
 {{ union_query | join(" UNION ALL ") }}
