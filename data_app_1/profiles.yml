@@ -1,0 +1,14 @@
+data_app_1:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: xxxxx
+      user: PAWELEK
+      password: "xxxxx"
+      role: ACCOUNTADMIN
+      database: DEV
+      warehouse: COMPUTE_WH
+      schema: DEV
+      threads: 4
+      client_session_keep_alive: False
