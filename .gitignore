@@ -3,3 +3,5 @@ secrets/
 *.log
 *profiles.yml
 data_app_1/profiles.yml
+*.zip
+*.csv
