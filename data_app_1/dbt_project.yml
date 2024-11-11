@@ -1,4 +1,7 @@
 
+# note:
+# you need profile.yml file in the same directory as dbt_project.yml to run this 
+
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
@@ -34,3 +37,24 @@ models:
     # Config indicated by + and applies to all files under models/example/
     example:
       +materialized: view
+    views: 
+      +schema: views
+      +materialized: view
+    tables:
+      +schema: tables
+      +materialized: table
+
+vars:
+  target_schema: 'raw'        # used in generate_schema_name to create seeds in raw schema 
+
+seeds:
+    +quote_columns: false
+    +schema: raw             # unable to set this as target_schema variable, hence duplicates a variable 
+    data:  
+      +column_types:
+        date: date
+        open: float
+        high: float
+        low: float
+        close: float
+        volume: bigint
