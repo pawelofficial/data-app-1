@@ -2,3 +2,4 @@ this_venv/
 secrets/
 *.log
 *profiles.yml
+data_app_1/profiles.yml
