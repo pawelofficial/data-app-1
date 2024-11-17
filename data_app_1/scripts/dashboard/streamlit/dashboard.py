@@ -12,7 +12,7 @@ ticker = st.selectbox("Select a ticker", tickers)
 
 df = session.sql(f"select * from dev.dev_tables.stocks_indicators where ticker='{ticker}'").to_pandas()
 
-st.write(df)
+#st.write(df)
 
 # Create figure with secondary y-axis
 fig = go.Figure()
@@ -27,6 +27,14 @@ fig.add_trace(
     go.Scatter(x=df["DATE"], y=df["CLOSE"], name="CLOSE", yaxis="y2", line=dict(color="blue"))
 )
 
+fig.add_trace(
+    go.Scatter(x=df["DATE"], y=df["EMA_10"], name="EMA_10", yaxis="y2", line=dict(color="black"))
+)
+
+fig.add_trace(
+    go.Scatter(x=df["DATE"], y=df["SMA_10"], name="SMA_10", yaxis="y2", line=dict(color="purple"))
+)
+
 # Create axis objects
 fig.update_layout(
     title="RSI and Price Action",
@@ -37,3 +45,4 @@ fig.update_layout(
 
 # Display the chart in Streamlit
 st.plotly_chart(fig)
+

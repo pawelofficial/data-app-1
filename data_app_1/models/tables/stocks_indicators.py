@@ -1,21 +1,21 @@
 import pandas as pd
+from snowflake.snowpark.functions import col, lag, when,avg
+from snowflake.snowpark.window import Window
+
+window_sizes=[10,20,50]
+
+
 
 def model(dbt, session):
     dbt.config(
         materialized="table"  # or "view", depending on your needs
     )
     
-    df = dbt.ref("stocks").to_pandas()
-    columns = list(df.columns)
+    df = dbt.ref("stocks").to_spark()
+     # Define the window
+    window_spec = Window.orderBy("DATE").rowsBetween(-10 + 1, 0)
+
+    # Calculate SMA
+    df = df.withColumn("SMA", avg("CLOSE").over(window_spec))
     
-    # Group by ticker and apply transformations
-    def calculate_rsi(group):
-        group['avg_loss'] = group['CLOSE'].diff().apply(lambda x: x if x < 0 else 0)
-        group['avg_gain'] = group['CLOSE'].diff().apply(lambda x: x if x > 0 else 0)
-        group['RSI'] = 100 - (100 / (1 + (group['avg_gain'].rolling(window=14).mean() / group['avg_loss'].rolling(window=14).mean().abs())))
-        return group
-    
-    df = df.groupby('TICKER').apply(calculate_rsi)
-    columns.append("RSI")
-    
-    return df[columns]
+    return df
